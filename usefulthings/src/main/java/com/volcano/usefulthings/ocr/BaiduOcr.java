@@ -22,17 +22,23 @@ import java.util.Map;
 @Controller
 public class BaiduOcr {
 
+    @Value("${ak}")
+    private String ak;
+
+    @Value("${sk}")
+    private String sk;
+
     @RequestMapping("/baiduOcr/test")
     @ResponseBody
     public String test(){
         String url = "https://aip.baidubce.com/rest/2.0/ocr/v1/accurate_basic?access_token=";
-        String accessToken = "24.755204a701ac67c231ea9b28d8df2706.2592000.1548125787.282335-11844761";
+        String accessToken = "24.a7dff38e28a6f1275977c28915638162.2592000.1563759269.282335-11844761";
         String imgStr = null;
         String result = null;
         StringBuilder sb = new StringBuilder();
         try{
             Map<String,Object> paraMap = new HashMap<>();
-            imgStr = Base64Util.encode(readFileByByte("D:\\" + "111.png"));
+            imgStr = Base64Util.encode(readFileByByte("F:\\" + "111.png"));
             paraMap.put(URLEncoder.encode("image", "UTF-8"),URLEncoder.encode(imgStr, "UTF-8"));
             result = HttpUtil.doPost(url+accessToken,paraMap);
 //            System.out.println("result-->" + result);
@@ -54,8 +60,6 @@ public class BaiduOcr {
     public String getAccessTokenFromBaidu() throws Exception{
         // 获取token地址
         String authHost = "https://aip.baidubce.com/oauth/2.0/token?";
-        String ak = "XCKZFouMG8xkxPYc9dGYGeav";
-        String sk = "z0GV41lOSKGarySdIjKjrhdOwlP4RZId";
         String getAccessTokenUrl = authHost
                 // 1. grant_type为固定参数
                 + "grant_type=client_credentials"
